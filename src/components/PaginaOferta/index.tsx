@@ -70,6 +70,18 @@ export default function PaginaOferta({
     // TESTE 3: o mesmo disparador clave do diagnóstico aparece na oferta
     const disparadorClave = getDisparadorClave(quizData);
 
+    // TESTE 4 (lab): quem marcou "VIVIMOS JUNTOS" vê o próprio cenário (não "temas necesarios")
+    const vivenJuntos = quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+
+    // TESTE 4 (lab): o medo que ele escolheu no chat, devolvido antes do preço
+    const miedoByOption: Record<string, string> = {
+        'QUE SE ACOSTUMBRE A VIVIR SIN MÍ': 'Me dijiste que lo que más miedo te da es que se acostumbre a vivir sin ti. Por eso tu plan empieza hoy.',
+        'QUE SE ENAMORE DE OTRO': 'Me dijiste que lo que más miedo te da es que se enamore de otro. Por eso tu plan te dice qué hacer y en qué momento, sin actuar a ciegas.',
+        'PERDER A MI FAMILIA': 'Me dijiste que lo que más miedo te da es perder a tu familia. Por eso cada paso de tu plan está pensado para no arriesgar lo que tienen.',
+        'QUE VOLVAMOS Y PASE LO MISMO': 'Me dijiste que lo que más miedo te da es que vuelvan y pase lo mismo. Por eso, además de qué hacer, vas a ver qué no repetir.'
+    };
+    const miedoEco = miedoByOption[quizData.mainFear || ''] || '';
+
     // 5 variáveis × 4 cenários
     const scenarioContent = {
         escenario_diagnostico: {
@@ -188,8 +200,22 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(16px, 4vw, 20px)',
                     fontWeight: '700'
                 }}>
-                    {scenarioContent.escenario_diagnostico[scenario]}
+                    {scenario === 'mismo_techo' && vivenJuntos
+                        ? 'Tu diagnóstico apuntó a un escenario concreto: viven bajo el mismo techo, pero distantes.'
+                        : scenarioContent.escenario_diagnostico[scenario]}
                 </p>
+
+                {miedoEco && (
+                    <p style={{
+                        fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                        color: 'rgba(255,255,255,0.9)',
+                        lineHeight: '1.6',
+                        marginBottom: 'clamp(16px, 4vw, 20px)',
+                        fontStyle: 'italic'
+                    }}>
+                        {miedoEco}
+                    </p>
+                )}
 
                 <p style={{
                     fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',

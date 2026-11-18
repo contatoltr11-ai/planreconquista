@@ -83,7 +83,7 @@ const QUESTIONS: Question[] = [
     response: 'Te entiendo.',
     responseByOption: {
       'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia mucho, y es normal que lo revises a cada rato. Te adelanto algo: insistir más no la acerca. Hay otra forma, y te la voy a mostrar.',
-      'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Pero verla todos los días, bien usado, es una ventaja que otros hombres no tienen.',
+      'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Y tiene arreglo: muchas veces empieza por que ella vuelva a verte distinto.',
       'IMAGINARLA CON OTRO': 'Esa imagen no te deja dormir, lo sé. Lo que imaginas casi siempre es peor que lo que pasa de verdad. Y aunque hubiera alguien, eso no cierra la puerta.',
       'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase confunde mucho, porque abre y cierra la puerta al mismo tiempo. Si todavía te quiere, hay algo con qué trabajar. Falta que vuelva a elegirte.',
       'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Extrañar tu casa, tu familia, la rutina con ella… es lo que más pesa en relaciones largas. Y justo por esa historia, hay mucho de dónde reconstruir.'
