@@ -126,7 +126,10 @@ export function getCopy(quizData: QuizData): string {
     const insight = vivenJuntos
         ? 'Que vivan bajo el mismo techo es una ventaja: no tienes que buscarla, ya está ahí. El problema es cómo te ve dentro de la casa. Si todo sigue igual que antes, nada cambia.'
         : sinContacto
-        ?'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
+        ? (timeSeparation.includes('1-6 MESES')
+            // Lab 18/11: 1-6 meses já ouviu "se está acostumbrando" no bloco do tempo; aqui não repete
+            ? 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: esperar sin un plan es dejar que el tiempo decida por ti. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
+            : 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.')
         : 'Que todavía hablen es una puerta abierta. El problema no es llegar a ella, es cómo te ve cuando le hablas. Si cada conversación se siente igual que antes, nada cambia.';
 
     // 4. Ela está com outro?

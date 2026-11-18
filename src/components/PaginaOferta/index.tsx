@@ -515,7 +515,6 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 2 · La Nostalgia: cómo hacer que recuerde lo bueno, sin presionarla</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 3 · La Pérdida: cuándo y cómo reaparecer</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Qué NO hacer en cada fase (los errores que la alejan)</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 días</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
@@ -582,7 +581,7 @@ export default function PaginaOferta({
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.6)', textDecoration: 'line-through', margin: '0 0 4px 0' }}>
-                USD 342
+                USD 379
             </p>
             <p style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', color: '#10b981', fontWeight: '900', margin: '0 0 4px 0', lineHeight: '1' }}>
                 $27
@@ -605,13 +604,14 @@ export default function PaginaOferta({
                     marginBottom: '4px'
                 }}>
                     <span style={{ fontSize: 'clamp(0.9rem, 3.4vw, 1.05rem)', color: '#facc15', fontWeight: '800' }}>
-                        🎁 +6 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$342</span>
+                        🎁 +7 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$379</span>
                     </span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo «Si ya está con otro» (o te dijo que los quiere a los dos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las señales de que está volviendo (y cómo no arruinarlas) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad privada de hombres en tu misma situación <span style={{ color: '#facc15', fontWeight: '700' }}>· De $67 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: ¿me voy de la casa o me quedo? (si viven juntos o tienen hijos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>

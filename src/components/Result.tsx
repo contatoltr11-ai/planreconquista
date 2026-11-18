@@ -282,7 +282,8 @@ export default function Result({ onNavigate }: ResultProps) {
             return;
         }
         ga4Tracking.buyClickStep({ phase_from: 4, phase_to: 4, button_name: 'Comprar Ahora' });
-        ga4Tracking.ctaBuyClicked('result_buy_main');
+        // Lab 18/11: plano escolhido no button_location (result_buy_main_14 / result_buy_main_27)
+        ga4Tracking.ctaBuyClicked(`result_buy_main_${selectedPlan}`);
         window.open(getHotmartUrl(selectedPlan), '_blank');
     };
 
