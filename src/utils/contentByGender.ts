@@ -51,7 +51,7 @@ export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: 
     const fase = nombre === 'La Pérdida' ? 3 : nombre === 'La Nostalgia' ? 2 : 1;
     const claveTexto = fase === 1
         ? 'Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Más abajo te la marqué.'
-        : `Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. Pero en tu caso, la Fase ${fase} es la que decide: las anteriores la preparan, y ahí ella da el paso. Más abajo te la marqué.`;
+        : `Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. Pero en tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Más abajo te la marqué.`;
 
     const porSituacion: Record<string, string> = {
         'CONTACTO CERO': 'Sin contacto, la Ventana empieza sin que le escribas: ella nota el cambio por lo que ve de ti, no por lo que le dices.',
