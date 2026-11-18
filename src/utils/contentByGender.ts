@@ -56,7 +56,7 @@ export function getCopy(quizData: QuizData): string {
     const introByCause: Record<string, string> = {
         'MIS CELOS O MI CARÁCTER': 'Ella se fue cansando de los celos y las discusiones, no de ti. Eso no define quién eres, define cómo actuabas. Y eso se cambia.',
         'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Ella se sintió sola mientras tú dabas todo por la casa. Lo que necesita es volver a sentir que es importante para ti.',
-        'PELEAS QUE LA FUERON CANSANDO': 'Ella no se fue de un día para otro. Se fue cansando. Y lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.',
+        'PELEAS QUE LA FUERON CANSANDO': 'Ella no se alejó de un día para otro. Se fue cansando. Y lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.',
         'UNA INFIDELIDAD O UNA MENTIRA': 'Lo que pasó le dolió, y su desconfianza es real. Pero si todavía algo se mueve en ella, hay camino. No va a ser con palabras, va a ser con lo que vea en ti.',
         'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Cuando una mujer dice que dejó de sentir, casi siempre quiere decir que se cansó de esperar un cambio. El sentimiento no desapareció, quedó tapado. Y se puede despertar.'
     };
@@ -73,12 +73,17 @@ export function getCopy(quizData: QuizData): string {
     };
     const painEcho = painByOption[mainPain] || '';
 
+    // TESTE 4 (lab): quem mora junto não "vive sem ele"
+    const vivenJuntos = currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+
     // 2. Tempo de separação
     let urgency = '';
     if (timeSeparation.includes('MENOS DE 1 SEMANA') || timeSeparation.includes('1-4 SEMANAS')) {
         urgency = 'Todavía estás a tiempo de hacerlo bien. Ella sigue pensando en ti, pero lo que hagas en los próximos días puede acercarla o alejarla.';
     } else if (timeSeparation.includes('1-6 MESES')) {
-        urgency = 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a vivir sin ti. Por eso ahora importa más el cuándo que el qué.';
+        urgency = vivenJuntos
+            ? 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a tenerte cerca sin sentirte cerca. Por eso ahora importa más el cuándo que el qué.'
+            : 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a vivir sin ti. Por eso ahora importa más el cuándo que el qué.';
     } else if (timeSeparation.includes('MÁS DE 6 MESES')) {
         urgency = 'Pasaron meses, y aun así no está cerrado. Una mujer no olvida años en meses. Solo necesita un motivo nuevo para mirarte distinto.';
     }
@@ -88,8 +93,10 @@ export function getCopy(quizData: QuizData): string {
         currentSituation.includes('CONTACTO CERO') ||
         currentSituation.includes('ME IGNORA') ||
         currentSituation.includes('BLOQUEADO');
-    const insight = sinContacto
-        ? 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
+    const insight = vivenJuntos
+        ? 'Que vivan bajo el mismo techo es una ventaja: no tienes que buscarla, ya está ahí. El problema es cómo te ve dentro de la casa. Si todo sigue igual que antes, nada cambia.'
+        : sinContacto
+        ?'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
         : 'Que todavía hablen es una puerta abierta. El problema no es llegar a ella, es cómo te ve cuando le hablas. Si cada conversación se siente igual que antes, nada cambia.';
 
     // 4. Ela está com outro?

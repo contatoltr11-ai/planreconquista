@@ -32,7 +32,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
         >
             <div className="revelation-header">
                 <div className="revelation-icon">💔</div>
-                <h2>{getTitle(gender)}</h2>
+                <h2>{quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES' ? 'Por Qué Ella Se Alejó' : getTitle(gender)}</h2>
             </div>
 
             <div className="quiz-summary-box">
