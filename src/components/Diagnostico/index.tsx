@@ -47,7 +47,6 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
 
     const legenda: CSSProperties = { fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: '#facc15', fontWeight: 700, textAlign: 'center', margin: '0 0 10px' };
     const printStyle: CSSProperties = { display: 'block', width: '100%', maxWidth: '260px', margin: '0 auto', borderRadius: '14px', boxShadow: '0 8px 28px rgba(0,0,0,0.45)' };
-    const nota: CSSProperties = { fontSize: '0.78rem', color: 'rgba(255,255,255,0.55)', textAlign: 'center', margin: '8px 0 0' };
 
     return (
         <div 
@@ -77,11 +76,9 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
             <div style={{ margin: 'clamp(24px, 6vw, 32px) 0 0' }}>
                 <p style={legenda}>Así le pasó a un hombre en tu misma situación</p>
                 <img src={prints[0].src} alt={prints[0].alt} loading="lazy" style={printStyle} />
-                <p style={nota}>Mensaje real que recibió un cliente. Nombres y fotos cambiados.</p>
 
                 <p style={{ ...legenda, marginTop: 'clamp(24px, 6vw, 28px)' }}>Y a otro que pensaba que ya era tarde</p>
                 <img src={prints[1].src} alt={prints[1].alt} loading="lazy" style={printStyle} />
-                <p style={nota}>Mensaje real que recibió un cliente. Nombres y fotos cambiados.</p>
             </div>
 
             <div style={{ margin: 'clamp(28px, 7vw, 36px) 0 0', textAlign: 'center' }}>
