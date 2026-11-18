@@ -461,6 +461,13 @@ export default function Result({ onNavigate }: ResultProps) {
                 .summary-quick-list { display: flex; flex-direction: column; gap: 10px; }
                 .summary-quick-item { font-size: clamp(0.9rem, 3.5vw, 1.05rem); color: rgba(255,255,255,0.9); line-height: 1.5; }
                 .fases-list-dopamine { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+                .ventana-entucaso-box { background: rgba(250, 204, 21, 0.08); border: 2px solid #facc15; border-radius: 12px; padding: clamp(16px, 4vw, 20px); margin-bottom: 24px; }
+                .entucaso-title { font-size: clamp(1.1rem, 4.5vw, 1.4rem); color: #facc15; margin: 0 0 12px 0; font-weight: 900; }
+                .entucaso-text { font-size: clamp(0.95rem, 3.8vw, 1.1rem); color: rgba(255,255,255,0.92); line-height: 1.6; margin: 0 0 12px 0; }
+                .entucaso-text:last-child { margin-bottom: 0; }
+                .entucaso-clave { font-size: clamp(1rem, 4vw, 1.15rem); color: white; font-weight: 700; margin: 0 0 8px 0; }
+                .fase-card-clave { border: 3px solid #facc15 !important; box-shadow: 0 0 24px rgba(250, 204, 21, 0.25); }
+                .fase-clave-badge { display: inline-block; background: #facc15; color: #111; font-size: clamp(0.75rem, 3vw, 0.9rem); font-weight: 900; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; }
                 .fase-card-dopamine { background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(234, 179, 8, 0.05)); border: 2px solid rgba(249, 115, 22, 0.3); border-radius: 16px; padding: clamp(20px, 5vw, 28px); }
                 .fase-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
                 .fase-number { background: linear-gradient(135deg, #f97316, #ea580c); color: white; font-size: clamp(0.8rem, 3vw, 0.95rem); font-weight: 900; padding: 6px 14px; border-radius: 20px; }

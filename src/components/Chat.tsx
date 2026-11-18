@@ -205,7 +205,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     };
     const intro2: Message = {
       type: 'bot',
-      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo cuál de los 3 disparadores va primero en tu caso. Lo que respondas queda entre tú y yo.',
+      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo cuál de los 3 disparadores pesa más en tu caso. Lo que respondas queda entre tú y yo.',
       isTyping: true,
     };
     setMessages([intro1]);

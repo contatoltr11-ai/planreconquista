@@ -42,6 +42,36 @@ export function getDisparadorClave(quizData: QuizData): { nombre: string; texto:
 }
 
 /**
+ * Ventana 72h (lab 18/11): bloco "En tu caso".
+ * Liga a Ventana ao disparador clave do diagnóstico (marca a fase dele) e
+ * traduz a Ventana para a situação de contato que ele respondeu.
+ */
+export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: string; claveTexto: string; situacionTexto: string } {
+    const { nombre } = getDisparadorClave(quizData);
+    const fase = nombre === 'La Pérdida' ? 3 : nombre === 'La Nostalgia' ? 2 : 1;
+    const claveTexto = fase === 1
+        ? 'Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Más abajo te la marqué.'
+        : `Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. Pero en tu caso, la Fase ${fase} es la que decide: las anteriores la preparan, y ahí ella da el paso. Más abajo te la marqué.`;
+
+    const porSituacion: Record<string, string> = {
+        'CONTACTO CERO': 'Sin contacto, la Ventana empieza sin que le escribas: ella nota el cambio por lo que ve de ti, no por lo que le dices.',
+        'ME IGNORA': 'Si hoy te ignora, la Ventana empieza el día en que dejas de empujar. Ahí su defensa empieza a bajar.',
+        'BLOQUEADO': 'Aunque te tenga bloqueado, la Ventana funciona: el cambio le llega por otros caminos, no por mensajes.',
+        'SÓLO TEMAS NECESARIOS': 'Como todavía hablan de lo necesario, la Ventana empieza en esas conversaciones: en cómo le respondes, no en lo que le pides.',
+        'VIVIMOS JUNTOS PERO DISTANTES': 'Como viven bajo el mismo techo, la Ventana empieza dentro de casa: en cómo te ve todos los días, no en mensajes.',
+        'HABLAMOS A VECES': 'Como todavía hablan a veces, la Ventana empieza en la próxima conversación: cambia lo que ella siente al hablar contigo.',
+        'SOMOS AMIGOS': 'Como hoy son amigos, la Ventana empieza el día en que dejas de estar siempre disponible como amigo.',
+        'ENCUENTROS ÍNTIMOS': 'Como todavía hay intimidad, la Ventana empieza el día en que dejas de estar disponible siempre que ella quiere.'
+    };
+    let situacionTexto = porSituacion[quizData.currentSituation || ''] || '';
+    const exSituation = quizData.exSituation || '';
+    if (exSituation.includes('RELACIÓN SERIA') || exSituation.includes('SALIENDO CASUAL') || exSituation.includes('VARIAS PERSONAS')) {
+        situacionTexto += (situacionTexto ? ' ' : '') + 'Y que esté con otra persona no cierra la Ventana: no vas a competir con él.';
+    }
+    return { fase, nombre, claveTexto, situacionTexto };
+}
+
+/**
  * TESTE 2 (14/11/2026): Diagnóstico com a Obsesión Inversa.
  * Toda resposta vira boa notícia + "tu disparador clave" conforme a situação.
  * Texto renderizado com pre-line (sem markdown).
@@ -127,9 +157,7 @@ export function getCopy(quizData: QuizData): string {
 
 // TESTE 2: Ventana 72h ligada à Obsesión Inversa (sem "psicólogos conductuales")
 export function getVentana72Copy(_gender: string): string {
-    return `No importa si se separaron hace 3 días o hace 3 meses.
-
-Hoy el obsesionado eres tú: miras si vio tu historia, relees sus mensajes, escribes y borras.
+    return `Hoy el obsesionado eres tú: miras si vio tu historia, relees sus mensajes, escribes y borras.
 
 La Obsesión Inversa da vuelta a eso. Con 3 disparadores, en el orden y el momento correctos, ella empieza a pensar en ti.
 
@@ -154,7 +182,6 @@ export function getVentanaSummary(_gender: string): string[] {
 // Por qué la Ventana es crucial
 export function getVentanaImportance(): string[] {
     return [
-        '🔁 Hoy el obsesionado eres tú. Esto lo da vuelta',
         '⏰ Cada disparador tiene su momento dentro de las 72 horas',
         '🎯 En el momento correcto, ella da el paso',
         '⚠️ Fuera de tiempo, la alejas más que antes'
@@ -215,7 +242,7 @@ export function getFaseText(_gender: string, fase: number): {
                 '✓ Sale del "alivio" de después de la ruptura',
                 '✓ Nota que ya no la persigues',
                 '✓ Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
-                '✓ Vuelve a mirar tus historias'
+                '✓ Empieza a buscar señales de ti'
             ],
             warning: '⚠️ Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
         },
@@ -241,7 +268,7 @@ export function getFaseText(_gender: string, fase: number): {
                 '✓ Siente que ya no estás disponible como antes',
                 '✓ Le da miedo que otra ocupe su lugar',
                 '✓ Busca una excusa para escribirte o verte',
-                '✓ Aquí reapareces, con el mensaje correcto'
+                '✓ Aquí reapareces, en el momento y de la forma correcta'
             ],
             warning: '⚠️ Aquí se pierde la mayoría. Reaparecen tarde o con el mensaje equivocado, y ella lo toma como la prueba de que nada cambió.'
         }
