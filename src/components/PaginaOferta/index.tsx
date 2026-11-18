@@ -96,6 +96,10 @@ export default function PaginaOferta({
         scenario === 'con_otro' ? 'Módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'Guía: ¿me voy de la casa o me quedo?'
         : 'Guía: las señales de que está volviendo';
+    const subtituloCompleto =
+        scenario === 'con_otro' ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
+        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «¿Me voy de la casa o me quedo?»'
+        : 'Armado para tu caso: incluye la guía de las señales de que está volviendo';
 
     // 5 variáveis × 4 cenários
     const scenarioContent = {
@@ -492,7 +496,7 @@ export default function PaginaOferta({
                 Plan Esencial
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Para quien quiere empezar
+                El método general, sin lo de tu caso
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
@@ -576,7 +580,7 @@ export default function PaginaOferta({
                 Plan Completo
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Para quien quiere el plan completo, con todos los casos
+                {subtituloCompleto}
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
