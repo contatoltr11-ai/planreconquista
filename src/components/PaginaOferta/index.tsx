@@ -96,6 +96,10 @@ export default function PaginaOferta({
         scenario === 'con_otro' ? 'Módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'Guía: ¿me voy de la casa o me quedo?'
         : 'Guía: las señales de que está volviendo';
+    const casoItemTexto =
+        scenario === 'con_otro' ? 'el módulo «Si ya está con otro»'
+        : scenario === 'mismo_techo' ? 'la guía «¿Me voy de la casa o me quedo?»'
+        : 'la guía de las señales de que está volviendo';
     const subtituloCompleto =
         scenario === 'con_otro' ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «¿Me voy de la casa o me quedo?»'
@@ -113,11 +117,11 @@ export default function PaginaOferta({
         },
         linea_caso: {
             contacto_cero: 'El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
-            con_otro: 'Que esté con otro no significa que te olvidó. Muchas veces es la forma de no pensar en lo que dejó. Lo que decide es lo que haces mientras tanto, sin competir con él.',
+            con_otro: 'Que esté con otro no significa que te olvidó. Lo que decide no es lo que él hace, es lo que haces tú mientras tanto, sin competir con él.',
             mismo_techo: 'Hablan, pero como dos desconocidos. Lo que cambia eso no es hablar más, es cómo te ve cuando hablan.',
             bloqueo: 'El bloqueo no significa que la puerta esté cerrada para siempre. Significa que el primer paso es otro.',
-            canal_abierto: 'Todavía hay contacto entre ustedes, y eso es una ventaja. Lo que falta no es hablar más: es que ella sienta algo distinto cuando habla contigo.',
-            ruptura_reciente: 'Los primeros días son los que más pesan. Seguro te estás preguntando si escribirle o esperar: tu plan te dice qué hacer y cuándo, para no dar un paso en falso.'
+            canal_abierto: 'Que todavía tengan contacto es una ventaja. Pero cada conversación cuenta: puede acercarla o dejarte en el mismo lugar de siempre.',
+            ruptura_reciente: 'Seguro te estás preguntando si escribirle o esperar. Es la duda de casi todos al principio, y la respuesta depende del momento, no de las ganas.'
         },
         testimonio_caso: {
             contacto_cero: {
@@ -149,8 +153,8 @@ export default function PaginaOferta({
             contacto_cero: 'Para tu caso te recomiendo el Plan Completo: además de los 3 disparadores, incluye la guía de las señales para saber cuándo romper el silencio sin arriesgar nada.',
             con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», que es justo tu situación.',
             bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
-            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: te muestra cómo cambiar la forma en que te ve cuando hablan, sin perder el contacto que ya tienen.',
-            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: los primeros días son los más delicados, y ahí cada paso en falso pesa el doble.',
+            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber cuándo avanzar sin perder el contacto que ya tienen.',
+            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber si está volviendo y cuándo dar el siguiente paso.',
             mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «¿Me voy de la casa o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
         },
         cta_final: {
@@ -522,7 +526,7 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 días</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
-                    ❌ Lo que tu caso necesita: {casoItemFaltante} (solo en el Plan Completo)
+                    ❌ Lo que tu caso necesita: {casoItemTexto} (solo en el Plan Completo)
                 </div>
                 {itensFaltantes.filter(item => item !== casoItemFaltante).map(item => (
                     <div key={item} style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ {item}</div>
