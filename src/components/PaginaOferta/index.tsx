@@ -47,7 +47,7 @@ export default function PaginaOferta({
 
         // PRIORIDAD 3b: Hablan solo de lo necesario (viven juntos / hijos). Coherente con el diagnóstico
         // ("todavía hablan") y con el disparador La Nostalgia — no es contacto cero.
-        if (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS') return 'mismo_techo';
+        if (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS' || quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES') return 'mismo_techo';
 
         // PRIORIDAD 4: Canal abierto = vínculo activo
         if (

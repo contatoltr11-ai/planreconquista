@@ -47,20 +47,31 @@ export function getDisparadorClave(quizData: QuizData): { nombre: string; texto:
  * Texto renderizado com pre-line (sem markdown).
  */
 export function getCopy(quizData: QuizData): string {
-    const whoEnded = quizData.whoEnded || '';
     const timeSeparation = quizData.timeSeparation || '';
     const currentSituation = quizData.currentSituation || '';
     const exSituation = quizData.exSituation || '';
 
-    // 1. Quem terminou
-    let intro = '';
-    if (whoEnded.includes('ELLA TERMINÓ') || whoEnded.includes('ÉL TERMINÓ')) {
-        intro = 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y eso es una buena noticia: lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.';
-    } else if (whoEnded.includes('YO TERMINÉ')) {
-        intro = 'Cuando tú terminaste, ella se sintió rechazada y levantó una defensa. Por eso, si hoy la buscas de frente, se cierra más. El camino es que vuelva a verte sin sentirse presionada.';
-    } else if (whoEnded.includes('DECISIÓN MUTUA')) {
-        intro = 'Cuando la decisión es de los dos, nadie quedó con la herida del rechazo. Eso juega a tu favor: no hay una herida que reparar, hay un interés que volver a despertar.';
-    }
+    // 1. TESTE 4 (lab): o que a afastou (culpa) no lugar de "quem terminou"
+    const mainCause = quizData.mainCause || '';
+    const introByCause: Record<string, string> = {
+        'MIS CELOS O MI CARÁCTER': 'Ella se fue cansando de los celos y las discusiones, no de ti. Eso no define quién eres, define cómo actuabas. Y eso se cambia.',
+        'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Ella se sintió sola mientras tú dabas todo por la casa. Lo que necesita es volver a sentir que es importante para ti.',
+        'PELEAS QUE LA FUERON CANSANDO': 'Ella no se fue de un día para otro. Se fue cansando. Y lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.',
+        'UNA INFIDELIDAD O UNA MENTIRA': 'Lo que pasó le dolió, y su desconfianza es real. Pero si todavía algo se mueve en ella, hay camino. No va a ser con palabras, va a ser con lo que vea en ti.',
+        'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Cuando una mujer dice que dejó de sentir, casi siempre quiere decir que se cansó de esperar un cambio. El sentimiento no desapareció, quedó tapado. Y se puede despertar.'
+    };
+    const intro = introByCause[mainCause] || 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y lo que se apagó por desgaste se puede volver a encender.';
+
+    // 1b. A dor dele, devolvida com as palavras dele
+    const mainPain = quizData.mainPain || '';
+    const painByOption: Record<string, string> = {
+        'QUE ME DEJE EN VISTO': 'Me dijiste que lo que más te duele es que te deje en visto. Por eso tu plan empieza por lo que NO debes hacer cuando eso pasa.',
+        'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Me dijiste que lo que más te duele es vivir con ella como dos desconocidos. Tu plan tiene en cuenta que la ves todos los días.',
+        'IMAGINARLA CON OTRO': 'Me dijiste que lo que más te duele es imaginarla con otro. Tu plan te dice cómo actuar sin competir y sin rogar.',
+        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Me dijiste que lo que más te duele es que te quiera, pero no lo suficiente. Ese «te quiero» es justo con lo que vamos a trabajar.',
+        'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Me dijiste que lo que más te duele es no sentir el calor de hogar. Tu plan está pensado para relaciones largas como la tuya.'
+    };
+    const painEcho = painByOption[mainPain] || '';
 
     // 2. Tempo de separação
     let urgency = '';
@@ -97,6 +108,7 @@ export function getCopy(quizData: QuizData): string {
     return [
         'No fue por falta de amor.',
         intro,
+        painEcho,
         urgency,
         insight,
         otroInsight,
@@ -175,7 +187,7 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
     
     return {
         title: '¡TU ANÁLISIS ESTÁ LISTO!',
-        subtitle: `Descubre exactamente por qué ${pronoun} se fue y el paso a paso científico para que ${pronoun} QUIERA volver`
+        subtitle: `Tu disparador clave y lo que debes hacer primero para que ${pronoun} vuelva a buscarte, según lo que me contaste.`
     };
 }
 

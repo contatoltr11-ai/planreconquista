@@ -1,7 +1,6 @@
 import { RefObject } from 'react';
 import { storage } from '../../utils/storage';
 import { getTitle, getCopy } from '../../utils/contentByGender';
-import { getEmotionalValidation } from '../../utils/emotionalValidation';
 
 interface DiagnosticoProps {
     sectionRef: RefObject<HTMLDivElement | null>;
@@ -20,6 +19,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
         'ME IGNORA':              '🔓 Ver Qué Hacer Cuando Ella No Responde',
         'BLOQUEADO':              '🔓 Ver El Camino Que No Requiere Mensaje',
         'SÓLO TEMAS NECESARIOS':  '🔓 Ver Cómo Romper El Contacto Funcional',
+        'VIVIMOS JUNTOS PERO DISTANTES': '🔓 Ver Cómo Dejar De Ser Invisible En Casa',
         'HABLAMOS A VECES':       '🔓 Ver Cómo Convertir Chats En Encuentros',
         'SOMOS AMIGOS':           '🔓 Ver Cómo Salir De La Friendzone',
         'ENCUENTROS ÍNTIMOS':     '🔓 Ver Cómo Convertir Sexo En Relación',
@@ -39,18 +39,14 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                 <p className="summary-title">📋 TU SITUACIÓN ESPECÍFICA</p>
                 <div className="summary-grid">
                     <div><span>✓</span> <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Quién terminó:</strong> {quizData.whoEnded || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>Lo que la alejó:</strong> {quizData.mainCause || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</div>
                     <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Compromiso:</strong> {quizData.commitmentLevel || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>Lo que más te duele:</strong> {quizData.mainPain || 'No especificado'}</div>
                 </div>
             </div>
 
-            {/* ✅ ORDEN CORREGIDO: validación emocional ANTES del diagnóstico técnico */}
-            <div className="emotional-validation">
-                <p><strong>Tu situación específica:</strong><br />{getEmotionalValidation(quizData)}</p>
-            </div>
-
+            {/* TESTE 4 (lab): bloco antigo getEmotionalValidation removido (duplicava o getCopy) */}
             <p className="revelation-text" style={{ whiteSpace: 'pre-line' }}>{getCopy(quizData)}</p>
 
             {buttonChecked ? (
