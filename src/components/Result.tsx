@@ -291,12 +291,7 @@ export default function Result({ onNavigate }: ResultProps) {
     return (
         <div className="result-container">
             {/* ✅ MELHORIA #1: Header SEM timer de 47 minutos */}
-            {/* Lab: título só depois do carregamento (antes contradizia o "Analizando tu caso") */}
-            {currentPhase > 0 && (
-                <div className="result-header">
-                    <h1 className="result-title">Tu Plan Personalizado Está Listo</h1>
-                </div>
-            )}
+            {/* Lab 18/11: título "Tu Plan Personalizado Está Listo" removido (só ocupava espaço); fica a barra de etapas */}
 
             {currentPhase > 0 && (
                 <div className="progress-bar-container fade-in">
