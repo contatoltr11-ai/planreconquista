@@ -1,4 +1,4 @@
-import { RefObject, CSSProperties } from 'react';
+import { RefObject, CSSProperties, useRef, useState } from 'react';
 import { storage } from '../../utils/storage';
 import { getTitle, getCopy } from '../../utils/contentByGender';
 import { ga4Tracking } from '../../utils/ga4Tracking';
@@ -40,13 +40,29 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
         : dejoDeSentir ? [PRINT_B, PRINT_A]
         : [PRINT_B, PRINT_C];
 
+    // carrossel: legenda acompanha o print visível
+    const legendas = ['Así le pasó a un hombre en tu misma situación', 'Y a otro que pensaba que ya era tarde'];
+    const carrosselRef = useRef<HTMLDivElement>(null);
+    const [slide, setSlide] = useState(0);
+    const onCarrosselScroll = () => {
+        const el = carrosselRef.current;
+        if (!el) return;
+        const s = el.scrollLeft > (el.scrollWidth - el.clientWidth) / 2 ? 1 : 0;
+        if (s !== slide) setSlide(s);
+    };
+    const irPara = (idx: number) => {
+        const el = carrosselRef.current;
+        if (!el) return;
+        const alvo = el.children[idx] as HTMLElement | undefined;
+        if (alvo) el.scrollTo({ left: alvo.offsetLeft - el.offsetLeft, behavior: 'smooth' });
+    };
+
     const handleSi = (location: string) => {
         ga4Tracking.diagnosticoCTAClick(location);
         onButtonClick();
     };
 
     const legenda: CSSProperties = { fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: '#facc15', fontWeight: 700, textAlign: 'center', margin: '0 0 10px' };
-    const printStyle: CSSProperties = { display: 'block', width: '100%', maxWidth: '260px', margin: '0 auto', borderRadius: '14px', boxShadow: '0 8px 28px rgba(0,0,0,0.45)' };
 
     return (
         <div 
@@ -72,13 +88,37 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
             {/* TESTE 4 (lab): bloco antigo getEmotionalValidation removido (duplicava o getCopy) */}
             <p className="revelation-text" style={{ whiteSpace: 'pre-line' }}>{getCopy(quizData)}</p>
 
-            {/* Lab: prova (2 prints) + compromisso sí/sí antes do vídeo */}
+            {/* Lab: prova (2 prints) em carrossel com a ponta do 2º aparecendo + compromisso sí/sí */}
             <div style={{ margin: 'clamp(24px, 6vw, 32px) 0 0' }}>
-                <p style={legenda}>Así le pasó a un hombre en tu misma situación</p>
-                <img src={prints[0].src} alt={prints[0].alt} loading="lazy" style={printStyle} />
-
-                <p style={{ ...legenda, marginTop: 'clamp(24px, 6vw, 28px)' }}>Y a otro que pensaba que ya era tarde</p>
-                <img src={prints[1].src} alt={prints[1].alt} loading="lazy" style={printStyle} />
+                <p style={legenda}>{legendas[slide]}</p>
+                <style>{`.prints-carrossel::-webkit-scrollbar{display:none}`}</style>
+                <div
+                    ref={carrosselRef}
+                    className="prints-carrossel"
+                    onScroll={onCarrosselScroll}
+                    style={{ display: 'flex', gap: '12px', overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch', padding: '4px 0 10px' }}
+                >
+                    {prints.map((p, idx) => (
+                        <img
+                            key={p.src}
+                            src={p.src}
+                            alt={p.alt}
+                            loading={idx === 0 ? 'eager' : 'lazy'}
+                            onClick={() => irPara(idx === 0 ? 1 : 0)}
+                            style={{ flex: '0 0 78%', width: '78%', maxWidth: '280px', scrollSnapAlign: 'start', borderRadius: '14px', boxShadow: '0 6px 20px rgba(0,0,0,0.45)', cursor: 'pointer' }}
+                        />
+                    ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '4px' }}>
+                    {prints.map((p, idx) => (
+                        <button
+                            key={p.src}
+                            aria-label={`Ver mensaje ${idx + 1}`}
+                            onClick={() => irPara(idx)}
+                            style={{ width: '9px', height: '9px', padding: 0, borderRadius: '50%', border: 'none', cursor: 'pointer', background: slide === idx ? '#facc15' : 'rgba(255,255,255,0.35)' }}
+                        />
+                    ))}
+                </div>
             </div>
 
             <div style={{ margin: 'clamp(28px, 7vw, 36px) 0 0', textAlign: 'center' }}>
