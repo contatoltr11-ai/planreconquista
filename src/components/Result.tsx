@@ -6,7 +6,6 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 
 import {
     getTitle,
-    getLoadingMessage,
     getCopy,
     getVentana72Copy,
     getVentanaSummary,
@@ -56,11 +55,10 @@ export default function Result({ onNavigate }: ResultProps) {
     const preOfferVideoSectionRef = useRef<HTMLDivElement>(null);
     const offerSectionRef = useRef<HTMLDivElement>(null);
 
-    const gender = quizData.gender || 'HOMBRE';
 
     const loadingSteps = [
         { icon: '📊', text: 'Respuestas procesadas', duration: 0 },
-        { icon: '🧠', text: 'Generando tu diagnóstico personalizado...', duration: 1800 }
+        { icon: '🧠', text: 'Armando tu diagnóstico...', duration: 1800 }
     ];
 
     // TESTE 4 (lab): fotos de casais trocando durante o "Analizando tu caso"
@@ -293,9 +291,12 @@ export default function Result({ onNavigate }: ResultProps) {
     return (
         <div className="result-container">
             {/* ✅ MELHORIA #1: Header SEM timer de 47 minutos */}
-            <div className="result-header">
-                <h1 className="result-title">Tu Plan Personalizado Está Listo</h1>
-            </div>
+            {/* Lab: título só depois do carregamento (antes contradizia o "Analizando tu caso") */}
+            {currentPhase > 0 && (
+                <div className="result-header">
+                    <h1 className="result-title">Tu Plan Personalizado Está Listo</h1>
+                </div>
+            )}
 
             {currentPhase > 0 && (
                 <div className="progress-bar-container fade-in">
@@ -331,7 +332,10 @@ export default function Result({ onNavigate }: ResultProps) {
                                 }}
                             />
                             <h2>ANALIZANDO TU CASO</h2>
-                            <p>{getLoadingMessage(gender)}</p>
+                            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
+                                <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 25)}s...</span></div>
+                            </div>
                             <div className="loading-steps-list">
                                 {loadingSteps.map((step, i) => (
                                     <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active' : ''}`}>
@@ -339,8 +343,6 @@ export default function Result({ onNavigate }: ResultProps) {
                                     </div>
                                 ))}
                             </div>
-                            <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
-                            <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 25)}s...</span></div>
                         </div>
                     </div>
                 )}
@@ -415,7 +417,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 .summary-grid div { font-size: clamp(0.85rem, 3.5vw, 1rem); color: white; }
                 .summary-grid span { color: #4ade80; font-weight: bold; }
                 .emotional-validation { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px; margin-top: 20px; color: #4ade80; }
-                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: 40px; text-align: center; }
+                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: clamp(20px, 5vw, 40px); text-align: center; }
                 .loading-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
                 .spin-brain { font-size: 4rem; animation: spin 2s linear infinite; }
                 .loading-steps-list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
