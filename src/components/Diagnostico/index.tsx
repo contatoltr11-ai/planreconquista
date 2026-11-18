@@ -88,7 +88,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     </p>
                 )}
                 <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5, margin: '0 0 16px' }}>
-                    Sophia grabó un video corto para explicarte cómo funciona tu disparador clave. ¿Lo vas a ver hasta el final?
+                    Sophia grabó un video corto con algo que pocos tienen el coraje de admitir sobre este momento. ¿Lo vas a ver hasta el final?
                 </p>
             </div>
 
