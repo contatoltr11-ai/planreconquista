@@ -314,7 +314,22 @@ export default function Result({ onNavigate }: ResultProps) {
                 {currentPhase === 0 && (
                     <div className="revelation fade-in loading-box-custom">
                         <div className="loading-inner">
-                            <div className="spin-brain">🧠</div>
+                            <img
+                                key={loadingImageIndex}
+                                src={loadingImages[loadingImageIndex]}
+                                alt=""
+                                className="fade-in"
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    maxWidth: '230px',
+                                    aspectRatio: '4 / 5',
+                                    objectFit: 'cover',
+                                    borderRadius: '16px',
+                                    margin: '0 auto 16px',
+                                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
+                                }}
+                            />
                             <h2>ANALIZANDO TU CASO</h2>
                             <p>{getLoadingMessage(gender)}</p>
                             <div className="loading-steps-list">
@@ -326,22 +341,6 @@ export default function Result({ onNavigate }: ResultProps) {
                             </div>
                             <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
                             <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 25)}s...</span></div>
-                            <img
-                                key={loadingImageIndex}
-                                src={loadingImages[loadingImageIndex]}
-                                alt=""
-                                className="fade-in"
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    maxWidth: '320px',
-                                    aspectRatio: '4 / 5',
-                                    objectFit: 'cover',
-                                    borderRadius: '16px',
-                                    margin: '20px auto 0',
-                                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
-                                }}
-                            />
                         </div>
                     </div>
                 )}
