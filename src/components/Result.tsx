@@ -60,8 +60,12 @@ export default function Result({ onNavigate }: ResultProps) {
 
     const loadingSteps = [
         { icon: '📊', text: 'Respuestas procesadas', duration: 0 },
-        { icon: '🧠', text: 'Generando tu diagnóstico personalizado...', duration: 1000 }
+        { icon: '🧠', text: 'Generando tu diagnóstico personalizado...', duration: 1800 }
     ];
+
+    // TESTE 4 (lab): fotos de casais trocando durante o "Analizando tu caso"
+    const loadingImages = ['/img/carga-1.webp', '/img/carga-2.jpg', '/img/carga-3.jpg'];
+    const [loadingImageIndex, setLoadingImageIndex] = useState(0);
 
     const getUTMs = (): Record<string, string> => {
         try {
@@ -94,9 +98,15 @@ export default function Result({ onNavigate }: ResultProps) {
                     clearInterval(progressInterval);
                     return 100;
                 }
-                return prev + 4;
+                return prev + 2.5;
             });
         }, 100);
+
+        // pré-carrega as fotos e troca a cada 1,4 s
+        loadingImages.forEach(src => { const img = new Image(); img.src = src; });
+        const imageInterval = setInterval(() => {
+            setLoadingImageIndex(prev => (prev < loadingImages.length - 1 ? prev + 1 : prev));
+        }, 1400);
 
         loadingSteps.forEach((step, index) => {
             setTimeout(() => setLoadingStep(index), step.duration);
@@ -106,7 +116,7 @@ export default function Result({ onNavigate }: ResultProps) {
             setCurrentPhase(1);
             playKeySound();
             ga4Tracking.revelationViewed('Por qué te dejó', 1);
-        }, 2500);
+        }, 4200);
 
         const spotsInterval = setInterval(() => {
             setSpotsLeft(prev => {
@@ -132,6 +142,7 @@ export default function Result({ onNavigate }: ResultProps) {
 
         return () => {
             clearInterval(progressInterval);
+            clearInterval(imageInterval);
             clearTimeout(timerPhase1);
             clearInterval(spotsInterval);
             clearInterval(buyingInterval);
@@ -314,7 +325,23 @@ export default function Result({ onNavigate }: ResultProps) {
                                 ))}
                             </div>
                             <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
-                            <div className="progress-labels"><span>{loadingProgress}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 10)}s...</span></div>
+                            <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 25)}s...</span></div>
+                            <img
+                                key={loadingImageIndex}
+                                src={loadingImages[loadingImageIndex]}
+                                alt=""
+                                className="fade-in"
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    maxWidth: '320px',
+                                    aspectRatio: '4 / 5',
+                                    objectFit: 'cover',
+                                    borderRadius: '16px',
+                                    margin: '20px auto 0',
+                                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
+                                }}
+                            />
                         </div>
                     </div>
                 )}
