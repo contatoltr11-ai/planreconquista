@@ -50,8 +50,8 @@ export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: 
     const { nombre } = getDisparadorClave(quizData);
     const fase = nombre === 'La Pérdida' ? 3 : nombre === 'La Nostalgia' ? 2 : 1;
     const claveTexto = fase === 1
-        ? 'Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Más abajo te la marqué.'
-        : `Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. Pero en tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Más abajo te la marqué.`;
+        ? 'En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Te la marqué abajo.'
+        : `En tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Te la marqué abajo.`;
 
     const porSituacion: Record<string, string> = {
         'CONTACTO CERO': 'Sin contacto, la Ventana empieza sin que le escribas: ella nota el cambio por lo que ve de ti, no por lo que le dices.',
@@ -232,59 +232,59 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
 
 // ✅ REFATORADO: Agora retorna objeto estruturado (Instruções #2, #3, #8)
 export function getFaseText(_gender: string, fase: number): {
-    title: string; 
+    title: string;
     timeRange: string;
-    summary: string; 
+    cerebro: string;
+    summary: string;
     bullets: string[];
     warning: string;
 } {
-    const fases: Record<number, { title: string; timeRange: string; summary: string; bullets: string[]; warning: string }> = {
+    // Ventana v4 (19/11/2026): 1 linha "no cérebro" + resumo curto + 3 sinais (antes 5 bullets que repetiam o resumo)
+    const fases: Record<number, { title: string; timeRange: string; cerebro: string; summary: string; bullets: string[]; warning: string }> = {
         1: {
-            title: 'Disparador 1 · La Curiosidad',
-            timeRange: '0-24 HORAS',
-            summary: 'El Ancla del Dolor se suelta: ya no la presionas, y empieza a preguntarse qué pasa contigo.',
+            title: 'La Curiosidad',
+            timeRange: '0 a 24 horas',
+            cerebro: '⚓ Se suelta el Ancla del Dolor',
+            summary: 'Ya no la presionas, y empieza a preguntarse qué pasa contigo.',
             bullets: [
-                '🧠 En su cerebro: su lado racional deja de defenderse de ti',
-                '✓ Sale del "alivio" de después de la ruptura',
-                '✓ Nota que ya no la persigues',
-                '✓ Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
-                '✓ Empieza a buscar señales de ti'
+                'Nota que ya no la persigues',
+                'Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
+                'Empieza a buscar señales de ti'
             ],
-            warning: '⚠️ Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
+            warning: 'Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
         },
 
         2: {
-            title: 'Disparador 2 · La Nostalgia',
-            timeRange: '24-48 HORAS',
-            summary: 'Vuelve la oxitocina: el cariño de los buenos momentos empieza a pesar más que las peleas.',
+            title: 'La Nostalgia',
+            timeRange: '24 a 48 horas',
+            cerebro: '🧡 Vuelve la oxitocina: el cariño',
+            summary: 'Los buenos momentos empiezan a pesar más que las peleas.',
             bullets: [
-                '🧠 En su cerebro: se reactiva la oxitocina. El cariño vuelve primero',
-                '✓ Vuelven los buenos momentos que había guardado',
-                '✓ Deja de verte como el hombre de las últimas peleas',
-                '✓ Su defensa empieza a bajar',
-                '✓ Siente ganas de saber de ti'
+                'Deja de verte como el hombre de las últimas peleas',
+                'Su defensa empieza a bajar',
+                'Siente ganas de saber de ti'
             ],
-            warning: '⚠️ Si presionas en este momento, se asusta y te cierra la puerta. Y una puerta que se cierra dos veces es mucho más difícil de abrir.'
+            warning: 'Si presionas aquí, se asusta y te cierra la puerta. Y una puerta que se cierra dos veces cuesta mucho más abrirla.'
         },
 
         3: {
-            title: 'Disparador 3 · La Pérdida',
-            timeRange: '48-72 HORAS',
-            summary: 'Se enciende la dopamina: siente que te puede perder de verdad, y da el paso.',
+            title: 'La Pérdida',
+            timeRange: '48 a 72 horas',
+            cerebro: '⚡ Se enciende la dopamina: las ganas',
+            summary: 'Siente que te puede perder de verdad, y da el paso.',
             bullets: [
-                '🧠 En su cerebro: se dispara la dopamina. Vuelven las ganas de ti',
-                '✓ Siente que ya no estás disponible como antes',
-                '✓ Le da miedo que otra ocupe su lugar',
-                '✓ Busca una excusa para escribirte o verte',
-                '✓ Aquí reapareces, en el momento y de la forma correcta'
+                'Siente que ya no estás disponible como antes',
+                'Le da miedo que otra ocupe su lugar',
+                'Busca una excusa para escribirte o verte'
             ],
-            warning: '⚠️ Aquí se pierde la mayoría. Reaparecen tarde o con el mensaje equivocado, y ella lo toma como la prueba de que nada cambió.'
+            warning: 'Aquí se pierde la mayoría: reaparecen tarde o con el mensaje equivocado, y ella lo toma como prueba de que nada cambió.'
         }
     };
 
     return fases[fase] || {
         title: '',
         timeRange: '',
+        cerebro: '',
         summary: '',
         bullets: [],
         warning: ''
