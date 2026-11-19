@@ -257,7 +257,7 @@ export function getFaseText(_gender: string, fase: number): {
         2: {
             title: 'La Nostalgia',
             timeRange: '24 a 48 horas',
-            cerebro: '🧡 Vuelve la oxitocina: el cariño',
+            cerebro: '🧡 Oxitocina: vuelve el cariño',
             summary: 'Los buenos momentos empiezan a pesar más que las peleas.',
             bullets: [
                 'Deja de verte como el hombre de las últimas peleas',
@@ -270,7 +270,7 @@ export function getFaseText(_gender: string, fase: number): {
         3: {
             title: 'La Pérdida',
             timeRange: '48 a 72 horas',
-            cerebro: '⚡ Se enciende la dopamina: las ganas',
+            cerebro: '⚡ Dopamina: vuelven las ganas',
             summary: 'Siente que te puede perder de verdad, y da el paso.',
             bullets: [
                 'Siente que ya no estás disponible como antes',

@@ -104,7 +104,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
                 .vent4-root, .vent4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
                 .vent4-root { color: rgba(255,255,255,0.92); }
                 .vent4-kicker { text-align: center; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #fb923c; margin: 0 0 6px; }
-                .vent4-title { text-align: center; font-size: clamp(1.6rem, 7vw, 2.1rem); font-weight: 900; color: #fff; line-height: 1.15; margin: 0 0 20px; }
+                .vent4-title { text-align: center; font-size: clamp(1.6rem, 7vw, 2.1rem); font-weight: 900; color: #fff; line-height: 1.15; margin: 0 0 22px !important; }
                 .vent4-title span { color: #f97316; }
                 .vent4-lead { font-size: clamp(1.25rem, 5.4vw, 1.5rem); font-weight: 800; color: #fff; margin: 0 0 10px; line-height: 1.3; }
                 .vent4-p { font-size: clamp(1rem, 4.3vw, 1.12rem); line-height: 1.6; margin: 0 0 14px; }
