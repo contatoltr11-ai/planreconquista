@@ -194,15 +194,13 @@ export function getCopy(quizData: QuizData): string {
 
 // TESTE 2: Ventana 72h ligada à Obsesión Inversa (sem "psicólogos conductuales")
 export function getVentana72Copy(_gender: string): string {
-    return `Hoy el obsesionado eres tú: miras si vio tu historia, relees sus mensajes, escribes y borras.
+    return `Hoy el obsesionado eres tú: miras si vio tu historia, relees sus mensajes, escribes y borras. Eso es dopamina. Y hoy la está fabricando tu cerebro, no el de ella.
 
-La Obsesión Inversa da vuelta a eso. Con 3 disparadores, en el orden y el momento correctos, ella empieza a pensar en ti.
-
-En cada fase hay cosas que hacer y cosas que NO hacer.
+La Obsesión Inversa le da la vuelta. En 72 horas, esa química pasa de tu cerebro al de ella.
 
 ✅ Si haces lo correcto en cada fase, ella te busca.
 
-❌ Si te equivocas, se cierra todavía más.
+❌ Si te equivocas, el Ancla del Dolor se hunde más y ella se cierra todavía más.
 
 Tu plan te dice exactamente qué hacer en cada fase, en tu caso.`;
 }
@@ -219,9 +217,9 @@ export function getVentanaSummary(_gender: string): string[] {
 // Por qué la Ventana es crucial
 export function getVentanaImportance(): string[] {
     return [
-        '⏰ Cada disparador tiene su momento dentro de las 72 horas',
-        '🎯 En el momento correcto, ella da el paso',
-        '⚠️ Fuera de tiempo, la alejas más que antes'
+        '🧠 Su cerebro cambia en 3 pasos, siempre en el mismo orden',
+        '🎯 En el momento correcto, la dopamina vuelve y ella da el paso',
+        '⚠️ Fuera de tiempo, hundes el Ancla del Dolor más que antes'
     ];
 }
 
@@ -274,8 +272,9 @@ export function getFaseText(_gender: string, fase: number): {
         1: {
             title: 'Disparador 1 · La Curiosidad',
             timeRange: '0-24 HORAS',
-            summary: 'Ella nota que algo cambió en ti y empieza a preguntarse qué pasa.',
+            summary: 'El Ancla del Dolor se suelta: ya no la presionas, y empieza a preguntarse qué pasa contigo.',
             bullets: [
+                '🧠 En su cerebro: su lado racional deja de defenderse de ti',
                 '✓ Sale del "alivio" de después de la ruptura',
                 '✓ Nota que ya no la persigues',
                 '✓ Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
@@ -287,8 +286,9 @@ export function getFaseText(_gender: string, fase: number): {
         2: {
             title: 'Disparador 2 · La Nostalgia',
             timeRange: '24-48 HORAS',
-            summary: 'Ella vuelve a recordar lo bueno, y lo malo pierde peso.',
+            summary: 'Vuelve la oxitocina: el cariño de los buenos momentos empieza a pesar más que las peleas.',
             bullets: [
+                '🧠 En su cerebro: se reactiva la oxitocina. El cariño vuelve primero',
                 '✓ Vuelven los buenos momentos que había guardado',
                 '✓ Deja de verte como el hombre de las últimas peleas',
                 '✓ Su defensa empieza a bajar',
@@ -300,8 +300,9 @@ export function getFaseText(_gender: string, fase: number): {
         3: {
             title: 'Disparador 3 · La Pérdida',
             timeRange: '48-72 HORAS',
-            summary: 'Ella siente que te puede perder de verdad, y da el paso.',
+            summary: 'Se enciende la dopamina: siente que te puede perder de verdad, y da el paso.',
             bullets: [
+                '🧠 En su cerebro: se dispara la dopamina. Vuelven las ganas de ti',
                 '✓ Siente que ya no estás disponible como antes',
                 '✓ Le da miedo que otra ocupe su lugar',
                 '✓ Busca una excusa para escribirte o verte',
