@@ -290,3 +290,56 @@ export function getFaseText(_gender: string, fase: number): {
         warning: ''
     };
 }
+
+/**
+ * Diagnóstico v4 (19/11/2026): mesmo conteúdo do enxuto v3, em blocos para o componente desenhar
+ * (cards, química em 2 linhas visuais). getCopy fica como referência/fallback.
+ */
+export function getDiagnosticoBlocos(quizData: QuizData): {
+    abertura: string; verguenza: string; harvard: string; dorFrase: string; enTuCaso: string;
+    disparadorNombre: string; disparadorTexto: string;
+} {
+    const currentSituation = quizData.currentSituation || '';
+    const exSituation = quizData.exSituation || '';
+    const impulso = quizData.impulso || '';
+    const mainPain = quizData.mainPain || '';
+
+    const aberturaByImpulso: Record<string, string> = {
+        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Me contaste que le mandaste un mensaje larguísimo. Lo escribiste por amor, pero su cerebro lo registró como presión. Cada mensaje así le graba una sola idea: este hombre trae dolor. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LA LLAMÉ VARIAS VECES': 'Me contaste que la llamaste varias veces. Cada llamada sin respuesta le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Me contaste que le pediste perdón y otra oportunidad. Lo hiciste de corazón, pero rogar le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Me contaste que la vigilaste en redes. Casi todos lo hacen y casi nadie lo admite: revisar su última conexión, mirar sus historias desde otra cuenta, analizar cada foto. Esa ansiedad se nota en todo lo que haces con ella, y le graba una sola idea: este hombre trae presión. Eso es el Ancla del Dolor.',
+        'NO HICE NADA, ME QUEDÉ CALLADO': 'Me contaste que no hiciste nada. Eso evitó lo peor: no le grabaste a su cerebro la idea de que traes presión, lo que yo llamo el Ancla del Dolor. Pero quedarte quieto tampoco enciende nada en ella.'
+    };
+    const abertura = aberturaByImpulso[impulso] || 'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.';
+
+    const verguenza = impulso.startsWith('LA VIGILÉ')
+        ? ''
+        : 'Y sé lo que casi ningún hombre admite: revisar su última conexión a cada rato, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.';
+
+    const harvard = 'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. Todo lo que hiciste hasta ahora le habló al lado racional. Con ese lado nadie se enamora.';
+
+    const dorByPain: Record<string, string> = {
+        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Por eso te dice "te quiero, pero no lo suficiente":',
+        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto y ya no siente nada cuando le llega tu mensaje:',
+        'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Por eso viven como dos desconocidos bajo el mismo techo:',
+        'IMAGINARLA CON OTRO': 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño de años sigue contigo, y eso él no lo tiene:',
+        'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Por eso la casa se siente fría:'
+    };
+    const dorFrase = dorByPain[mainPain] || 'Por eso hoy no te busca:';
+
+    const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation);
+    const laVe = ['VIVIMOS JUNTOS PERO DISTANTES', 'SÓLO TEMAS NECESARIOS'].includes(currentSituation);
+    const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(exSituation);
+    let enTuCaso = sinContacto
+        ? 'Hoy no hay contacto, y mientras esperas, ella se acostumbra. Por eso importa más el cuándo que el qué.'
+        : laVe
+        ? 'Todavía la ves, y eso es una ventaja. Lo que cambia todo es cómo te ve cuando están juntos.'
+        : currentSituation
+        ? 'Todavía hablan, y eso es una puerta abierta. Lo que cambia todo es cómo te ve cuando le hablas.'
+        : '';
+    if (conOtro) enTuCaso = (enTuCaso ? enTuCaso + ' ' : '') + 'Y que esté con otro no cierra la puerta.';
+
+    const clave = getDisparadorClave(quizData);
+    return { abertura, verguenza, harvard, dorFrase, enTuCaso, disparadorNombre: clave.nombre, disparadorTexto: clave.texto };
+}
