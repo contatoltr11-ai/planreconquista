@@ -250,7 +250,8 @@ export default function PaginaOferta({
     ];
     const casoKey = casoConOtro ? 'otro' : scenario === 'mismo_techo' ? 'techo' : 'senales';
     const bonosOrdenados = [...bonos.filter(b => b.k === casoKey), ...bonos.filter(b => b.k !== casoKey)];
-    const printPrecio = casoConOtro ? '/img/print-c.jpg' : vivenJuntos ? '/img/print-a.jpg' : '/img/print-b.jpg';
+    // Prints da oferta = WhatsApp escuro, diferentes dos do diagnóstico (Carolina / Mónica / Verónica)
+    const printPrecio = casoConOtro ? '/img/oferta-otro.jpg' : scenario === 'mismo_techo' ? '/img/oferta-casa.jpg' : '/img/oferta-senales.jpg';
     const faqPrimero =
         scenario === 'bloqueo' && !casoConOtro ? 'rafael'
         : casoConOtro ? 'tiago'
