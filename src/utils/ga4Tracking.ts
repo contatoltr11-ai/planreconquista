@@ -68,10 +68,10 @@ class GA4Tracking {
     });
   }
 
-  // Bloco 1 (19/11): botão fixo da oferta que leva aos planos
+  // Bloco 1 (19/11): botão fixo da oferta (depois dos planos) que volta ao card do Plan Completo
   offerStickyClick() {
     this.sendEvent('cta_click', {
-      button_name: 'Ver planes (fijo)',
+      button_name: 'Volver al Plan Completo (fijo)',
       button_location: 'offer_sticky',
       page: 'oferta'
     });

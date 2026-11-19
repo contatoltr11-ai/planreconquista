@@ -28,13 +28,16 @@ export default function PaginaOferta({
     const quizData = storage.getQuizData();
     const gender = quizData.gender || 'HOMBRE';
 
-    // Bloco 1 (19/11): botão fixo "Ver mi plan" até o lead chegar aos planos.
+    // Bloco 1 (19/11, v2): botão fixo "Volver a mi Plan Completo" — só aparece DEPOIS que o lead
+    // passou pelos planos (ele lê tudo até o preço sem distração; decisão do usuário).
+    // Leva ao card do $27 (não compra direto e não troca o plano que ele escolheu).
     // Some quando os planos, o CTA principal ou o CTA final estão na tela.
     const plansRef = useRef<HTMLDivElement>(null);
+    const completoRef = useRef<HTMLDivElement>(null);
     const mainCtaRef = useRef<HTMLButtonElement>(null);
     const finalCtaRef = useRef<HTMLButtonElement>(null);
     const [visibleTargets, setVisibleTargets] = useState<Record<string, boolean>>({});
-    const [scrolledIn, setScrolledIn] = useState(false);
+    const [passedPlans, setPassedPlans] = useState(false);
     useEffect(() => {
         const targets: [string, Element | null][] = [
             ['plans', plansRef.current],
@@ -52,15 +55,18 @@ export default function PaginaOferta({
             });
         });
         targets.forEach(([, el]) => el && obs.observe(el));
-        const onScroll = () => setScrolledIn(window.scrollY > 500);
+        const onScroll = () => {
+            const p = plansRef.current;
+            setPassedPlans(!!p && p.getBoundingClientRect().bottom < 0);
+        };
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => { obs.disconnect(); window.removeEventListener('scroll', onScroll); };
     }, []);
-    const showSticky = scrolledIn && !Object.values(visibleTargets).some(Boolean);
-    const goToPlans = () => {
+    const showSticky = passedPlans && !Object.values(visibleTargets).some(Boolean);
+    const goToCompleto = () => {
         ga4Tracking.offerStickyClick();
-        const el = plansRef.current;
+        const el = completoRef.current;
         if (!el) return;
         const bar = document.querySelector('.progress-bar-container') as HTMLElement | null;
         const top = el.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 12;
@@ -586,7 +592,7 @@ export default function PaginaOferta({
         </button>
     </div>
     {/* PLANO 2: TOTAL (RECOMENDADO) - $27 */}
-    <div style={{
+    <div ref={completoRef} style={{
         background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
         border: selectedPlan === 27 ? '4px solid #10b981' : '3px solid rgba(16, 185, 129, 0.5)',
         borderRadius: '16px',
@@ -1424,7 +1430,7 @@ export default function PaginaOferta({
                 }}
             >
                 <button
-                    onClick={goToPlans}
+                    onClick={goToCompleto}
                     tabIndex={showSticky ? 0 : -1}
                     style={{
                         width: '100%', maxWidth: '520px', margin: '0 auto', display: 'block',
@@ -1434,9 +1440,9 @@ export default function PaginaOferta({
                         fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.25, cursor: 'pointer'
                     }}
                 >
-                    👇 Ver mi plan y precio
+                    👆 Volver a mi Plan Completo · USD 27
                     <span style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, opacity: 0.95, marginTop: '2px' }}>
-                        Desde USD 14 · Garantía 7 + 90 días
+                        Recomendado para tu caso · Garantía 7 + 90 días
                     </span>
                 </button>
             </div>
