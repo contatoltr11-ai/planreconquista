@@ -74,15 +74,20 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </h1>
 
                 <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre cómo volver a encender esa región">
-                    <img
-                        src={BRAIN_CARD_URL}
-                        alt="Cerebro con la región primitiva encendida: la que decide por quién se obsesiona"
-                        className="lp-news"
-                        width={720}
-                        height={512}
-                        {...{ fetchpriority: 'high' }}
-                        decoding="async"
-                    />
+                    <span className="lp-brain-wrap">
+                        <img
+                            src={BRAIN_CARD_URL}
+                            alt="Cerebro con la región primitiva encendida: la que decide por quién se obsesiona"
+                            className="lp-news"
+                            width={720}
+                            height={512}
+                            {...{ fetchpriority: 'high' }}
+                            decoding="async"
+                        />
+                        {/* brilho pulsando + pontilhado girando sobre o ponto vermelho (centro em 53,33% / 50,78% da imagem) */}
+                        <span className="lp-brain-glow" aria-hidden="true"></span>
+                        <span className="lp-brain-ring" aria-hidden="true"></span>
+                    </span>
                 </button>
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
@@ -120,6 +125,14 @@ export default function Landing({ onNavigate }: LandingProps) {
 
             {/* Classes com prefixo lp- para não colidir com o CSS global (ex.: .progress-bar do chat) */}
             <style>{`
+                .lp-brain-wrap { position: relative; display: block; }
+                .lp-brain-glow, .lp-brain-ring { position: absolute; left: 53.33%; top: 50.78%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
+                .lp-brain-glow { width: 30%; aspect-ratio: 1; background: radial-gradient(circle, rgba(255,59,92,0.55) 0%, rgba(255,59,92,0.18) 45%, rgba(255,59,92,0) 70%); animation: lp-brain-pulse 1.6s ease-in-out infinite; }
+                .lp-brain-ring { width: 12.9%; aspect-ratio: 1; border: 2px dashed #e0244d; animation: lp-brain-spin 6s linear infinite; }
+                @keyframes lp-brain-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } }
+                @keyframes lp-brain-spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+                @media (prefers-reduced-motion: reduce) { .lp-brain-glow, .lp-brain-ring { animation: none; } }
+
                 .lp-container {
                     min-height: 100vh;
                     background: #000;
