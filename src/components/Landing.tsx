@@ -105,7 +105,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                         <rect x="4" y="11" width="16" height="10" rx="2"></rect>
                         <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                     </svg>
-                    <span>Test gratuito · 6 preguntas · 2 minutos · 100% anónimo</span>
+                    <span>Test gratuito · 6 preguntas · 2 min · 100% anónimo</span>
                 </p>
 
                 {/* 6. BENEFÍCIOS */}
@@ -130,7 +130,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .lp-brain-wrap { position: relative; display: block; }
                 .lp-brain-glow, .lp-brain-ring { position: absolute; left: 43.21%; top: 38.98%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
                 .lp-brain-glow { width: 24%; aspect-ratio: 1; background: radial-gradient(circle, rgba(255,170,40,0.75) 0%, rgba(255,120,0,0.25) 40%, rgba(255,120,0,0) 70%); animation: lp-brain-pulse 1.6s ease-in-out infinite; }
-                .lp-brain-ring { width: 11%; aspect-ratio: 1; border: 2.5px dashed #ff8a00; animation: lp-brain-spin 6s linear infinite; }
+                .lp-brain-ring { width: 11%; aspect-ratio: 1; border: 3px dashed #ffffff; box-shadow: 0 0 10px rgba(255,140,0,0.9); animation: lp-brain-spin 6s linear infinite; }
                 @keyframes lp-brain-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } }
                 @keyframes lp-brain-spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
                 @media (prefers-reduced-motion: reduce) { .lp-brain-glow, .lp-brain-ring { animation: none; } }
@@ -323,6 +323,7 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 .lp-micro {
                     margin: 0;
+                    white-space: nowrap;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -363,6 +364,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     .lp-headline { font-size: 23px; }
                     .lp-bubble { font-size: 14px; }
                     .lp-cta { font-size: 17px; }
+                    .lp-micro { font-size: 12px; }
                 }
             `}</style>
         </div>
