@@ -17,6 +17,8 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     const d = getDiagnosticoBlocos(quizData);
     // destaca "Ancla del Dolor" em vermelho dentro da abertura
     const [abA, abB] = d.abertura.split('Ancla del Dolor');
+    // respostas do quiz vêm em CAIXA ALTA; no resumo, só a primeira letra maiúscula
+    const fmt = (v?: string) => v ? v.charAt(0) + v.slice(1).toLowerCase() : 'No especificado';
 
 
     // Lab: título acima dos botões, conforme a situação
@@ -72,7 +74,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     return (
         <div 
             ref={sectionRef} 
-            className={`revelation fade-in ${fadeOutPhase === 1 ? 'fade-out' : ''}`}
+            className={`revelation fade-in diag4-root ${fadeOutPhase === 1 ? 'fade-out' : ''}`}
         >
             {/* Mecanismo v2 (18/11/2026): alerta + medidor de probabilidade */}
             <div style={{ background: '#dc2626', color: 'white', borderRadius: '12px', padding: '12px 14px', textAlign: 'center', margin: '0 0 16px' }}>
@@ -97,11 +99,11 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
             <div className="quiz-summary-box">
                 <p className="summary-title">📋 TU SITUACIÓN ESPECÍFICA</p>
                 <div className="summary-grid">
-                    <div><span>✓</span> <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Lo que hiciste:</strong> {quizData.impulso || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Lo que más te duele:</strong> {quizData.mainPain || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>Tiempo:</strong> {fmt(quizData.timeSeparation)}</div>
+                    <div><span>✓</span> <strong>Lo que hiciste:</strong> {fmt(quizData.impulso)}</div>
+                    <div><span>✓</span> <strong>Contacto:</strong> {fmt(quizData.currentSituation)}</div>
+                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {fmt(quizData.exSituation)}</div>
+                    <div><span>✓</span> <strong>Lo que más te duele:</strong> {fmt(quizData.mainPain)}</div>
                 </div>
             </div>
 
@@ -153,6 +155,11 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                 <p className="diag4-warn">⚠️ Pero cuidado: mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.</p>
             </div>
             <style>{`
+                .diag4-root, .diag4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+                .diag4-root .revelation-header { justify-content: center; text-align: center; }
+                .diag4-root .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+                .diag4-root .summary-grid div { font-size: 1rem; line-height: 1.4; }
+                .diag4-root .summary-title { letter-spacing: 0.04em; }
                 .diag4 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: rgba(255,255,255,0.92); }
                 .diag4-lead { font-size: clamp(1.25rem, 5.4vw, 1.5rem); font-weight: 800; color: #fff; margin: 4px 0 10px; }
                 .diag4-p { font-size: clamp(1rem, 4.3vw, 1.12rem); line-height: 1.6; margin: 0 0 14px; }
