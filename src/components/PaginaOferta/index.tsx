@@ -530,7 +530,7 @@ export default function PaginaOferta({
 {/* Etapa 3A (19/11): prova colada ao preço — print do caso dele */}
 <div style={{ textAlign: 'center', margin: '0 0 clamp(20px, 4vw, 28px)' }}>
     <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: '#facc15', fontWeight: 700, margin: '0 0 10px' }}>Así le escribió ella a un hombre en tu misma situación</p>
-    <img src={printPrecio} alt="Mensaje de WhatsApp de ella" loading="lazy" style={{ width: '78%', maxWidth: '280px', borderRadius: '14px', boxShadow: '0 6px 20px rgba(0,0,0,0.45)' }} />
+    <img src={printPrecio} alt="Mensaje de WhatsApp de ella" loading="lazy" style={{ display: 'block', margin: '0 auto', width: '78%', maxWidth: '280px', borderRadius: '14px', boxShadow: '0 6px 20px rgba(0,0,0,0.45)' }} />
 </div>
 
 {/* ✅ MELHORIA #5: 2 Planos lado a lado ($14 / $27) */}
