@@ -5,7 +5,9 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 // Substituiu a conversa estilo WhatsApp ("Andrea", foto 01-wpp-foto.webp).
 // v3 (18/11/2026): Harvard / lado racional x región primitiva (mecanismo v2). Fonte: expert-lucas/criativo-15-ventana-noticia/landing-card-v3.html
 // Anterior: 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp'
-const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp';
+// const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp'; // versão no ar nos domínios
+// PRÉVIA 19/11: cérebro com a região acesa (fonte expert-lucas/criativo-15-ventana-noticia/cerebro-card.html)
+const BRAIN_CARD_URL = '/img/landing-cerebro.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -64,30 +66,27 @@ export default function Landing({ onNavigate }: LandingProps) {
                     <div className="lp-progress-fill"></div>
                 </div>
 
-                {/* 2. IMAGEM — cartão de notícia no topo (17/11/2026, v2: notícia antes da pergunta, como o concorrente). Antes: conversa estilo WhatsApp com "Andrea" */}
-                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre qué disparador vuelve a encender sus ganas por ti">
+                {/* PRÉVIA 19/11/2026 (modelo Mariana Vabo): título único + cérebro com a região acesa no lugar do card de notícia.
+                    Versão no ar nos domínios: card "Relaciones Hoy" (Harvard) + "¿Qué disparador vuelve a encender sus ganas por ti?" */}
+                <h1 className="lp-headline">
+                    Científicos de Harvard descubrieron la región del cerebro de tu ex que decide{' '}
+                    <span className="lp-highlight">por quién se obsesiona</span>
+                </h1>
+
+                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre cómo volver a encender esa región">
                     <img
-                        src={NEWS_CARD_URL}
-                        alt="Relaciones Hoy: Harvard: el cerebro de una mujer apaga su lado racional cuando ve al hombre que la marcó"
+                        src={BRAIN_CARD_URL}
+                        alt="Cerebro con la región primitiva encendida: la que decide por quién se obsesiona"
                         className="lp-news"
                         width={720}
-                        height={594}
+                        height={512}
                         {...{ fetchpriority: 'high' }}
                         decoding="async"
                     />
                 </button>
 
-                {/* 3. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
-                    Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
-                {/* 18/11/2026 (mecanismo v2): "¿Qué disparador vuelve a encender sus ganas por ti?" */}
-                <h1 className="lp-headline">
-                    ¿Qué disparador{' '}
-                    <span className="lp-highlight">vuelve a encender sus ganas</span> por ti?
-                </h1>
-                {/* 17/11/2026: removida a linha "Responde 6 preguntas y te digo qué hacer (y qué no) esta semana." (já repetida no microtexto do botão) para o botão subir */}
-
                 {/* 4. QUEBRA DE OBJEÇÃO */}
-                <p className="lp-objection">Aunque te haya bloqueado, te deje en visto, ya esté con otro o vivan bajo el mismo techo.</p>
+                <p className="lp-objection">Y se puede volver a encender, aunque te haya bloqueado, te deje en visto o ya esté con otro.</p>
 
                 {/* 5. CTA — mesmo handleCTAClick de antes (GA4 + navegação para o chat) */}
                 <button className="lp-cta" onClick={handleCTAClick}>
