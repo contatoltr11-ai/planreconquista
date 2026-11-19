@@ -374,7 +374,7 @@ export default function Result({ onNavigate }: ResultProps) {
                             </div>
                             <div className="loading-steps-list">
                                 {loadingSteps.map((step, i) => (
-                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active' : ''}`}>
+                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active fade-in' : ''}`} style={{ visibility: i <= loadingStep ? 'visible' : 'hidden' }}>
                                         {i < loadingStep ? '✅' : step.icon} {step.text}
                                     </div>
                                 ))}
