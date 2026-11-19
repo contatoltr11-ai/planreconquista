@@ -33,12 +33,12 @@ export function getDisparadorClave(quizData: QuizData): { nombre: string; texto:
         exSituation.includes('VARIAS PERSONAS');
 
     if (conOtro) {
-        return { nombre: 'La Pérdida', texto: 'En tu caso, ella necesita sentir que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.' };
+        return { nombre: 'La Pérdida', texto: 'Su cerebro libera dopamina cuando siente que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.' };
     }
     if (currentSituation && !sinContacto) {
-        return { nombre: 'La Nostalgia', texto: 'En tu caso, ella ya te ve. Falta que vuelva a recordar lo que sentía contigo, y no al hombre de las últimas peleas.' };
+        return { nombre: 'La Nostalgia', texto: 'Ella ya te ve. Falta que su cerebro vuelva a asociarte con lo que sentía al principio, y no con el hombre de las últimas peleas. Cuando vuelve el cariño, las ganas vienen detrás.' };
     }
-    return { nombre: 'La Curiosidad', texto: 'En tu caso, el primer paso no es escribirle. Es que ella note que algo cambió en ti, sin que tú se lo digas.' };
+    return { nombre: 'La Curiosidad', texto: 'El primer paso no es escribirle. Es que note que algo cambió en ti sin que se lo digas. Su cerebro no soporta una pregunta sin respuesta, y tú te conviertes en esa pregunta.' };
 }
 
 /**
@@ -72,6 +72,29 @@ export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: 
 }
 
 /**
+ * Mecanismo v2 (18/11/2026): probabilidade de volta exibida no diagnóstico.
+ * Base 62, ajustada pelas respostas; fica entre ~38% e ~80% (nunca condena, sempre pode subir a 87%).
+ */
+export function getProbabilidad(quizData: QuizData): number {
+    const t = quizData.timeSeparation || '';
+    const c = quizData.currentSituation || '';
+    const e = quizData.exSituation || '';
+    let p = 62;
+    if (t.includes('MENOS DE 1 SEMANA')) p += 6;
+    else if (t.includes('1-4 SEMANAS')) p += 4;
+    else if (t.includes('MÁS DE 6 MESES')) p -= 8;
+    if (['HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'].includes(c)) p += 8;
+    else if (['SÓLO TEMAS NECESARIOS', 'VIVIMOS JUNTOS PERO DISTANTES'].includes(c)) p += 4;
+    else if (c === 'ME IGNORA') p -= 4;
+    else if (c === 'BLOQUEADO') p -= 6;
+    if (e === 'ESTÁ SOLTERA') p += 4;
+    else if (e === 'VARIAS PERSONAS') p -= 2;
+    else if (e === 'SALIENDO CASUAL') p -= 4;
+    else if (e === 'RELACIÓN SERIA') p -= 10;
+    return Math.max(35, Math.min(80, p));
+}
+
+/**
  * TESTE 2 (14/11/2026): Diagnóstico com a Obsesión Inversa.
  * Toda resposta vira boa notícia + "tu disparador clave" conforme a situação.
  * Texto renderizado com pre-line (sem markdown).
@@ -88,7 +111,7 @@ export function getCopy(quizData: QuizData): string {
         'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Ella se sintió sola mientras tú dabas todo por la casa. Lo que necesita es volver a sentir que es importante para ti.',
         'PELEAS QUE LA FUERON CANSANDO': 'Ella no se alejó de un día para otro. Se fue cansando. Y lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.',
         'UNA INFIDELIDAD O UNA MENTIRA': 'Lo que pasó le dolió, y su desconfianza es real. Pero si todavía algo se mueve en ella, hay camino. No va a ser con palabras, va a ser con lo que vea en ti.',
-        'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Cuando una mujer dice que dejó de sentir, casi siempre quiere decir que se cansó de esperar un cambio. El sentimiento no desapareció, quedó tapado. Y se puede despertar.'
+        'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Cuando una mujer dice que dejó de sentir, lo que se apagó son las ganas, no el cariño. Y las ganas se vuelven a encender.'
     };
     const intro = introByCause[mainCause] || 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y lo que se apagó por desgaste se puede volver a encender.';
 
@@ -98,7 +121,7 @@ export function getCopy(quizData: QuizData): string {
         'QUE ME DEJE EN VISTO': 'Me dijiste que lo que más te duele es que te deje en visto. Por eso tu plan empieza por lo que NO debes hacer cuando eso pasa.',
         'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Me dijiste que lo que más te duele es vivir con ella como dos desconocidos. Tu plan tiene en cuenta que la ves todos los días.',
         'IMAGINARLA CON OTRO': 'Me dijiste que lo que más te duele es imaginarla con otro. Tu plan te dice cómo actuar sin competir y sin rogar.',
-        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Me dijiste que lo que más te duele es que te quiera, pero no lo suficiente. Ese «te quiero» es justo con lo que vamos a trabajar.',
+        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Me dijiste que lo que más te duele es que te quiera, pero no lo suficiente. Ahora vas a entender exactamente por qué te lo dice.',
         'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Me dijiste que lo que más te duele es no sentir el calor de hogar. Tu plan está pensado para relaciones largas como la tuya.'
     };
     const painEcho = painByOption[mainPain] || '';
@@ -145,16 +168,26 @@ export function getCopy(quizData: QuizData): string {
     const clave = getDisparadorClave(quizData);
     const disparador = `Tu disparador clave: ${clave.nombre}\n${clave.texto}`;
 
+    // Mecanismo v2 (18/11/2026): Ancla del Dolor + Harvard + oxitocina/dopamina + lado racional
+    const mecanismo = [
+        'LO QUE NADIE TE EXPLICÓ:',
+        'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR. Y mientras más insistes, más la hundes.',
+        'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina.',
+        'La oxitocina es el cariño. Por eso todavía te dice "te quiero". La dopamina son las ganas. Esa se apagó, y por eso hoy no te busca.',
+        'Todo lo que hiciste hasta ahora le habló a su lado racional. Con ese lado nadie se enamora.'
+    ].join('\n\n');
+
     return [
         'No fue por falta de amor.',
         intro,
         painEcho,
+        mecanismo,
         urgency,
         insight,
         otroInsight,
         disparador,
-        'Los 3 disparadores se aplican en orden, pero en tu caso todo depende de este.',
-        'La clave no es rogar ni desaparecer. Es saber qué hacer y en qué momento. En el siguiente paso te muestro cómo funciona en tu caso.'
+        'Eso es la OBSESIÓN INVERSA: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte.',
+        'Pero cuidado: este disparador, mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.'
     ].filter(Boolean).join('\n\n');
 }
 
