@@ -103,7 +103,28 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
             </div>
 
             {/* TESTE 4 (lab): bloco antigo getEmotionalValidation removido (duplicava o getCopy) */}
-            <p className="revelation-text" style={{ whiteSpace: 'pre-line' }}>{getCopy(quizData)}</p>
+            {/* Mecanismo v2: foto da Sophia em Harvard logo após o parágrafo do estudo (marcador [[FOTO_HARVARD]] no getCopy).
+                Foto provisória (cabelo ondulado; o usuário vai trocar por uma com cabelo liso). */}
+            {getCopy(quizData).split('[[FOTO_HARVARD]]').map((trecho, i, arr) => (
+                <div key={i}>
+                    <p className="revelation-text" style={{ whiteSpace: 'pre-line' }}>{trecho.trim()}</p>
+                    {i < arr.length - 1 && (
+                        <figure style={{ margin: '4px 0 22px' }}>
+                            <img
+                                src="/img/sophia-harvard.webp"
+                                alt="Sophia Sanchez en Harvard"
+                                width={720}
+                                height={720}
+                                loading="lazy"
+                                style={{ width: '100%', height: 'auto', borderRadius: '14px', display: 'block' }}
+                            />
+                            <figcaption style={{ fontSize: 'clamp(0.85rem, 3.4vw, 0.95rem)', color: 'rgba(255,255,255,0.75)', textAlign: 'center', marginTop: '8px', lineHeight: 1.4 }}>
+                                Sophia Sanchez en Harvard, donde estudió cómo el cerebro femenino decide a quién elegir.
+                            </figcaption>
+                        </figure>
+                    )}
+                </div>
+            ))}
 
             {/* Lab: prova (2 prints) em carrossel com a ponta do 2º aparecendo + compromisso sí/sí */}
             <div style={{ margin: 'clamp(24px, 6vw, 32px) 0 0' }}>

@@ -173,6 +173,7 @@ export function getCopy(quizData: QuizData): string {
         'LO QUE NADIE TE EXPLICÓ:',
         'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR. Y mientras más insistes, más la hundes.',
         'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina.',
+        '[[FOTO_HARVARD]]',
         'La oxitocina es el cariño. Por eso todavía te dice "te quiero". La dopamina son las ganas. Esa se apagó, y por eso hoy no te busca.',
         'Todo lo que hiciste hasta ahora le habló a su lado racional. Con ese lado nadie se enamora.'
     ].join('\n\n');
