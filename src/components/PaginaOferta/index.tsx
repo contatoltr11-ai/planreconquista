@@ -205,7 +205,7 @@ export default function PaginaOferta({
                     textAlign: 'left'
                 }}
             >
-                <p className="of4-kicker">🎯 Paso 4 de 4 · Último paso</p>
+                <p className="of4-kicker">🎯 Paso 4 de 4</p>
                 <h3 className="of4-title">Llegaste al <span>último paso</span></h3>
 
                 <div className="of4-escenario">
@@ -1362,11 +1362,8 @@ export default function PaginaOferta({
                     .of4-row { display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; font-size: clamp(0.95rem, 4vw, 1.05rem); line-height: 1.45; color: rgba(255,255,255,0.92); }
                     .of4-row b { color: #fff; }
                     .of4-root .of4-yellow { color: #facc15; }
+                    .of4-root details > summary { line-height: 1.4; }
                     .of4-green-lead { font-size: clamp(1.15rem, 4.8vw, 1.3rem); line-height: 1.45; font-weight: 800; color: #4ade80; margin: 0; }
-                    .of4-root details > summary { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; line-height: 1.4; }
-                    .of4-root details > summary::-webkit-details-marker { display: none; }
-                    .of4-root details > summary::after { content: '+'; font-size: 1.4rem; line-height: 1; font-weight: 700; color: #facc15; flex-shrink: 0; }
-                    .of4-root details[open] > summary::after { content: '−'; }
                 `}</style>
 
             </div>
