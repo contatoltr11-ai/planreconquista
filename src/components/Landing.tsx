@@ -8,6 +8,7 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 // const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp'; // versão no ar nos domínios
 // PRÉVIA 19/11: cérebro com a região acesa (fonte expert-lucas/criativo-15-ventana-noticia/cerebro-card.html)
 const BRAIN_CARD_URL = '/img/landing-cerebro.webp';
+const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-chat.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -68,8 +69,10 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 {/* PRÉVIA 19/11/2026 (modelo Mariana Vabo): título único + cérebro com a região acesa no lugar do card de notícia.
                     Versão no ar nos domínios: card "Relaciones Hoy" (Harvard) + "¿Qué disparador vuelve a encender sus ganas por ti?" */}
+                {/* PRÉVIA 19/11 (opção 1): a frase que só nós usamos (banco de falas nº 1) como gancho acima do título */}
+                <p className="lp-kicker">¿Te dice “te quiero, pero no quiero estar contigo”?</p>
                 <h1 className="lp-headline">
-                    Científicos de Harvard descubrieron la región del cerebro de tu ex que decide{' '}
+                    Harvard descubrió la región de su cerebro que decide{' '}
                     <span className="lp-highlight">por quién se obsesiona</span>
                 </h1>
 
@@ -104,6 +107,12 @@ export default function Landing({ onNavigate }: LandingProps) {
                         <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                     </svg>
                     <span>6 preguntas · 2 minutos · 100% anónimo</span>
+                </p>
+
+                {/* PRÉVIA 19/11 (opção 2): rosto + prova embaixo do botão (mesma foto do chat) */}
+                <p className="lp-author">
+                    <img src={SOPHIA_AVATAR_URL} alt="Sophia Sanchez" width={32} height={32} />
+                    <span>Test creado por <strong>Sophia Sanchez</strong> · Más de 9.000 hombres ya lo hicieron</span>
                 </p>
 
                 {/* 6. BENEFÍCIOS */}
@@ -180,6 +189,28 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .lp-highlight {
                     color: #FFB020;
                 }
+                .lp-kicker {
+                    margin: 0 0 -6px;
+                    font-size: 17px;
+                    line-height: 1.35;
+                    font-style: italic;
+                    font-weight: 700;
+                    text-align: center;
+                    color: #FFB020;
+                }
+                .lp-author {
+                    margin: -4px 0 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    font-size: 13px;
+                    line-height: 1.35;
+                    color: #D4D4D8;
+                    text-align: left;
+                }
+                .lp-author img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #FFB020; flex-shrink: 0; }
+                .lp-author strong { color: #FFFFFF; }
                 .lp-sub {
                     margin: -6px 0 0;
                     font-size: 16px;
