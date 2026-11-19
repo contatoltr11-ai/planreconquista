@@ -68,6 +68,15 @@ class GA4Tracking {
     });
   }
 
+  // Bloco 1 (19/11): botão fixo da oferta que leva aos planos
+  offerStickyClick() {
+    this.sendEvent('cta_click', {
+      button_name: 'Ver planes (fijo)',
+      button_location: 'offer_sticky',
+      page: 'oferta'
+    });
+  }
+
   landingScrollDepth(depth: number) {
     this.sendEvent('scroll_depth', {
       depth_percentage: depth,
