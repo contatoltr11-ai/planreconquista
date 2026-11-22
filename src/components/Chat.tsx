@@ -148,6 +148,14 @@ export default function Chat({ onNavigate }: ChatProps) {
   // Se a foto da Sophia não carregar, volta para as iniciais "SS"
   const [avatarFailed, setAvatarFailed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Chat v6 (22/11): hora de cada balão, fixada quando ele aparece (estilo WhatsApp)
+  const timesRef = useRef<string[]>([]);
+  const horaDe = (idx: number) => {
+    if (!timesRef.current[idx]) {
+      timesRef.current[idx] = new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+    }
+    return timesRef.current[idx];
+  };
   const typewriterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const optionsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -330,51 +338,57 @@ export default function Chat({ onNavigate }: ChatProps) {
 
   const isComplete = progress >= 100;
   const quizData = storage.getQuizData();
+  // Chat v6 (22/11): estilo conversa de WhatsApp (escuro). Só visual: perguntas, tempos e GA4 iguais.
+  const escribiendo = isProcessing || messages.some(m => m.isTyping);
+  const respondidas = messages.filter(m => m.type === 'user').length;
 
   return (
-    <div className="chat-container chat4">
-      <div className="chat-header">
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-        </div>
-        <p className="progress-text">ANÁLISIS: {Math.round(progress)}%</p>
-        {isProcessing && (
-          <p className="processing-text">ANALIZANDO TU CASO...</p>
+    <div className="chat-container chat4 wa">
+      <div className="wa-head">
+        {avatarFailed ? (
+          <div className="wa-avatar wa-avatar-txt">SS</div>
+        ) : (
+          <img
+            src={SOPHIA_AVATAR_URL}
+            alt="Sophia Sanchez"
+            className="wa-avatar"
+            width={42}
+            height={42}
+            decoding="async"
+            onError={() => setAvatarFailed(true)}
+          />
         )}
+        <div className="wa-who">
+          <p className="wa-name">Sophia Sanchez</p>
+          <p className={`wa-status${escribiendo ? ' on' : ''}`}>{escribiendo ? 'escribiendo…' : 'en línea'}</p>
+        </div>
+        <span className="wa-step">Análisis {Math.min(respondidas, QUESTIONS.length)}/{QUESTIONS.length}</span>
+        <div className="wa-line" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="chat-messages">
+        <div className="wa-day">Hoy</div>
         {messages.map((msg, idx) => (
-          <div key={idx} className={`message ${msg.type}`}>
-            {msg.type === 'bot' && (
-              avatarFailed ? (
-                <div className="avatar-small">SS</div>
-              ) : (
-                <img
-                  src={SOPHIA_AVATAR_URL}
-                  alt="Sophia Sanchez"
-                  className="avatar-small"
-                  width={40}
-                  height={40}
-                  decoding="async"
-                  onError={() => setAvatarFailed(true)}
-                  style={{ objectFit: 'cover', objectPosition: '50% 35%', padding: 0 }}
-                />
-              )
-            )}
-            <div className="message-bubble">
+          <div key={idx} className={`message ${msg.type}${idx > 0 && messages[idx - 1].type === msg.type ? ' seq' : ''}`}>
+            <div className={`message-bubble${msg.isTyping ? ' typing' : ''}`}>
               {msg.isTyping ? (
-                <TypewriterText text={msg.text} />
+                <span className="wa-dots"><i /><i /><i /></span>
               ) : (
-                msg.text
+                <>
+                  {msg.text}
+                  <span className="wa-meta">
+                    {horaDe(idx)}
+                    {msg.type === 'user' && <span className="wa-ticks">✓✓</span>}
+                  </span>
+                </>
               )}
             </div>
           </div>
         ))}
 
         {isProcessing && (
-          <div className="processing-indicator">
-            <div className="spinner"></div>
+          <div className="message bot seq">
+            <div className="message-bubble typing"><span className="wa-dots"><i /><i /><i /></span></div>
           </div>
         )}
 
@@ -432,17 +446,44 @@ export default function Chat({ onNavigate }: ChatProps) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Chat v4 (19/11/2026): fonte de leitura, balões claros, opções sem caixa alta (valores salvos continuam iguais) */}
+      {/* Chat v6 (22/11/2026): estilo conversa de WhatsApp escuro (sem logo/marca), opções como respostas rápidas, sem barra de digitar */}
       <style>{`
         .chat4, .chat4 * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-        .chat4 .progress-text { font-size: 0.85rem; letter-spacing: 0.06em; color: #86efac; }
-        .chat4 .processing-text { font-size: 0.8rem; letter-spacing: 0.06em; color: #4ade80; }
-        .chat4 .message { margin-bottom: 1.1rem; }
-        .chat4 .message-bubble { font-size: clamp(1rem, 4.3vw, 1.1rem); line-height: 1.5; max-width: 82%; padding: 0.85rem 1.05rem; border-radius: 16px; }
-        .chat4 .message.bot .message-bubble { background: #1a1d1b; border: 1px solid rgba(74, 222, 128, 0.25); color: #f3f4f3; border-top-left-radius: 4px; }
-        .chat4 .message.user .message-bubble { background: #15803d; border: 1px solid #22c55e; color: #fff; font-weight: 600; border-top-right-radius: 4px; }
-        .chat4 .option-button { text-transform: none; letter-spacing: 0; font-size: clamp(1rem, 4.2vw, 1.08rem); line-height: 1.35; font-weight: 700; padding: 0.95rem 1.15rem; border-radius: 12px; }
-        .chat4 .option-button.cta-final { text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+        .chat4.wa { max-width: none; padding: 0; min-height: 100vh; min-height: 100dvh; background-color: #0b141a; background-image: url("${WA_WALLPAPER}"); background-size: 260px 260px; }
+        .chat4 .wa-head { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #202c33; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+        .chat4 .wa-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; object-position: 50% 35%; flex-shrink: 0; }
+        .chat4 .wa-avatar-txt { display: flex; align-items: center; justify-content: center; background: #00a884; color: #0b141a; font-weight: 700; }
+        .chat4 .wa-who { min-width: 0; }
+        .chat4 .wa-name { margin: 0; color: #e9edef; font-size: 1.05rem; font-weight: 600; line-height: 1.25; }
+        .chat4 .wa-status { margin: 0; color: #8696a0; font-size: 0.82rem; line-height: 1.3; }
+        .chat4 .wa-status.on { color: #00a884; }
+        .chat4 .wa-step { margin-left: auto; flex-shrink: 0; color: #8696a0; font-size: 0.78rem; border: 1px solid rgba(134,150,160,0.35); border-radius: 12px; padding: 3px 9px; }
+        .chat4 .wa-line { position: absolute; left: 0; bottom: 0; height: 2px; background: #00a884; transition: width 0.5s ease; }
+        .chat4 .chat-messages { max-width: 700px; width: 100%; margin: 0 auto; padding: 12px 12px 28px; }
+        .chat4 .wa-day { width: fit-content; margin: 2px auto 14px; padding: 5px 12px; border-radius: 8px; background: #182229; color: #8696a0; font-size: 0.8rem; }
+        .chat4 .message { margin: 10px 0 0; gap: 0; }
+        .chat4 .message.seq { margin-top: 3px; }
+        .chat4 .message-bubble { position: relative; max-width: 84%; padding: 7px 10px 8px; border: none; border-radius: 8px; color: #e9edef; font-weight: 400; font-size: clamp(1rem, 4.3vw, 1.08rem); line-height: 1.45; box-shadow: 0 1px 0.5px rgba(11,20,26,0.3); }
+        .chat4 .message.bot .message-bubble { background: #202c33; color: #e9edef; border: none; }
+        .chat4 .message.user .message-bubble { background: #005c4b; color: #e9edef; border: none; font-weight: 400; }
+        .chat4 .message.bot:not(.seq) .message-bubble { border-top-left-radius: 0; }
+        .chat4 .message.user:not(.seq) .message-bubble { border-top-right-radius: 0; }
+        .chat4 .message.bot:not(.seq) .message-bubble::before { content: ''; position: absolute; top: 0; left: -8px; border-top: 0 solid transparent; border-right: 8px solid #202c33; border-bottom: 10px solid transparent; }
+        .chat4 .message.user:not(.seq) .message-bubble::before { content: ''; position: absolute; top: 0; right: -8px; border-left: 8px solid #005c4b; border-bottom: 10px solid transparent; }
+        .chat4 .wa-meta { float: right; margin: 8px 0 -5px 12px; font-size: 0.7rem; color: rgba(233,237,239,0.6); white-space: nowrap; }
+        .chat4 .wa-ticks { margin-left: 3px; color: #53bdeb; letter-spacing: -3px; }
+        .chat4 .message-bubble.typing { padding: 12px 14px; }
+        .chat4 .wa-dots { display: inline-flex; gap: 4px; }
+        .chat4 .wa-dots i { width: 7px; height: 7px; border-radius: 50%; background: #8696a0; animation: waDot 1.2s infinite ease-in-out; }
+        .chat4 .wa-dots i:nth-child(2) { animation-delay: 0.15s; }
+        .chat4 .wa-dots i:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes waDot { 0%, 60%, 100% { opacity: 0.35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+        .chat4 .options-container { margin-top: 10px; gap: 6px; }
+        .chat4 .option-button { width: 100%; background: #202c33; color: #00a884; border: none; border-radius: 8px; box-shadow: 0 1px 0.5px rgba(0,0,0,0.35); text-transform: none; letter-spacing: 0; text-align: center; font-size: clamp(1rem, 4.2vw, 1.06rem); line-height: 1.35; font-weight: 600; padding: 0.85rem 1rem; }
+        .chat4 .option-button:hover, .chat4 .option-button:active { transform: none; background: #2a3942; box-shadow: 0 1px 0.5px rgba(0,0,0,0.35); }
+        .chat4 .option-button.cta-final { background: #00a884; color: #0b141a; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; padding: 1rem; }
+        .chat4 .option-button.cta-final:hover, .chat4 .option-button.cta-final:active { background: #06cf9c; }
+        .chat4 .completion-count { color: #8696a0; }
       `}</style>
     </div>
   );
@@ -454,19 +495,17 @@ function fmtOpcao(t: string): string {
   return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
 }
 
-function TypewriterText({ text }: { text: string }) {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, TYPE_SPEED);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text]);
-
-  return <span>{displayText}<span className="cursor">▋</span></span>;
-}
+// Chat v6 (22/11): fundo de conversa próprio (desenhos simples em SVG, não é o papel de parede do app)
+const WA_WALLPAPER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260" fill="none" stroke="#ffffff" stroke-opacity="0.045" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+  '<path d="M40 52c-6-8-20-4-18 7 2 9 18 18 18 18s16-9 18-18c2-11-12-15-18-7z"/>' +
+  '<path d="M150 30l5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z"/>' +
+  '<rect x="200" y="70" width="38" height="28" rx="8"/><path d="M208 98l-4 10 12-10"/>' +
+  '<circle cx="95" cy="120" r="14"/><path d="M89 118h.01M101 118h.01M89 126c4 4 8 4 12 0"/>' +
+  '<path d="M30 180l10-14 10 14-10 14z"/>' +
+  '<path d="M172 178v-22l14-4v22"/><circle cx="168" cy="178" r="4"/><circle cx="182" cy="174" r="4"/>' +
+  '<path d="M120 210c10-6 20 6 30 0"/><path d="M120 222c10-6 20 6 30 0"/>' +
+  '<circle cx="228" cy="200" r="6"/><circle cx="60" cy="235" r="4"/>' +
+  '<path d="M215 245l6-6m0 6l-6-6"/><path d="M110 60h18m-9-9v18"/>' +
+  '</svg>'
+);
